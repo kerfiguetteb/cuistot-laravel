@@ -6,7 +6,7 @@
     @foreach($recettes->ingredientsRecettes as $ingredient)
         <ul>
 
-            <li>{{$ingredient->quantity}}-{{$ingredient->ingredient_name}}</li>
+            <li>{{$ingredient->quantity}}g -{{$ingredient->ingredient_name}}</li>
 
         </ul>
     @endforeach
