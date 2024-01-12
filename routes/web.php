@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('/recettes')->name('recette.')->controller(\App\Http\Controllers\RecetteController::class)->group(function (){
+    Route::get('/', 'index')->name('index');
+});
