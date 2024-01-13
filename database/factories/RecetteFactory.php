@@ -20,7 +20,7 @@ class RecetteFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'         => fake()->sentence,
+            'title'         => fake()->sentence(1),
             'content'       => fake()->text,
             'user_id'       => User::factory(),
         ];

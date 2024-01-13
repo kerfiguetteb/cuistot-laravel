@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('quantity');
             $table->string('ingredient_name');
-            $table->foreignIdFor(\App\Models\Recette::class);
-            $table->foreignIdFor(\App\Models\Ingredient::class);
+            $table->foreignIdFor(\App\Models\Recette::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Ingredient::class)->constrained()->cascadeOnDelete();
+
 
         });
     }

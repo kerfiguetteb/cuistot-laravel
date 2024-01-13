@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recette;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class RecetteController extends Controller
 {
@@ -12,8 +14,11 @@ class RecetteController extends Controller
      */
     public function index()
     {
-        return view('recette.index',[
-            'recettes' => Recette::find(1)
+
+    $recettes = Recette::paginate(16);
+
+        return view('recettes.index',[
+            'recettes' => $recettes
         ]);
     }
 
@@ -36,9 +41,18 @@ class RecetteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Recette $recette)
+    public function show( string $slug, Recette $recette): RedirectResponse | View
     {
-        //
+        $expectedSlug = $recette->getSlug();
+
+        if ($slug !== $expectedSlug) {
+            return to_route('recettes.show', ['slug' => $expectedSlug, 'recette' => $recette]);
+        }
+
+        return view('recettes.show',[
+            'recette'=> $recette
+        ]);
+
     }
 
     /**
