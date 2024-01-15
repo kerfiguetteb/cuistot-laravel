@@ -3,6 +3,7 @@
 use App\Http\Controllers\RecetteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,19 @@ Route::prefix('/recettes')->name('recettes.')->controller(RecetteController::cla
         'recette' => $idRegex,
         'slug' => $slugRegex
     ])->name('show');
+    Route::post('/new', 'create' )->name('create')->middleware('auth');
+    Route::post('/new', 'store')->middleware('auth');
 });
 
 Route::get('/{slug}-{user}', [UserController::class, 'show'])->name('users.show')->where([
     'slug' =>$slugRegex,
     'user'=>$idRegex
 ]);
+Route::get('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
+Route::delete('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'doLogin']);
+
+Route::prefix('/profile')->name('profile.')->middleware('auth')->controller(ProfileController::class)->group(function (){
+    Route::get('/', 'index')->name('index');
+
+});

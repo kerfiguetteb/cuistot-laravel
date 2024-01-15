@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IngredientRecetteFormRequest;
+use App\Http\Requests\RecetteFormRequest;
 use App\Models\Recette;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class RecetteController extends Controller
@@ -27,14 +30,22 @@ class RecetteController extends Controller
      */
     public function create()
     {
-        //
+        $recette = new Recette();
+
+        return view('recettes.create', [
+            'recette' => $recette
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RecetteFormRequest $requestRecette, IngredientRecetteFormRequest $requestIngredientRecette)
     {
+        $recette = Recette::create($requestRecette->validated());
+        $recette->categorie()->sync($requestRecette->validated('categorys'));
+        $recette->ingrredientsRecettes();
+        $recette->user()->sync(Auth::user());
         //
     }
 

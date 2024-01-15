@@ -26,6 +26,7 @@ class UsersTableSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'John Doe',
             'email' => 'john@doe.com',
+            'password' => "john"
         ])->each(function ($user){
             $user->recettes()->saveMany(Recette::factory(10))->create([
                 'user_id' => $user->id,
